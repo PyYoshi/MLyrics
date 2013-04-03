@@ -2651,6 +2651,127 @@ mlyrics.fetch = {
 				return respLyr;
 			}
 		},
+
+        // http://www.uta-net.com
+        // ======================
+        UTANET: {
+            getUrl: function (artist, album, track) {
+                return "http://www.uta-net.com/user/ichiran.html?Cselect=1&Fselect=&sort=2&Aselect=2&Bselect=4&Keyword=" + EscapeSJIS(track);
+            },
+            getLyrics: function (artist, album, track, cbFn) {
+                var url = this.getUrl(artist, album, track);
+                mlyrics.lib.debugOutput("url: " + url)
+                var sourceObj = this;
+                var req = new XMLHttpRequest();
+                if (!req) {
+                    cbFn("");
+                    return;
+                }
+                mlyrics.lib.debugOutput("Fetch: " + url);
+                req.open("GET", url, true);
+                var abortTimeout = setTimeout(function () {req.abort(); cbFn("");}, mlyrics.fetch.abortTimeout);
+                req.onreadystatechange = function() {
+                    if (typeof(mlyrics.pane) != "undefined" &&
+                        mlyrics.fetch.fetchMediaItem && mlyrics.pane.playlistPlaybackServiceListener.curMediaItem != mlyrics.fetch.fetchMediaItem)
+                    {
+                        mlyrics.lib.debugOutput("Fetch1 abort - track changed");
+                        clearTimeout(abortTimeout);
+                        this.abort();
+                        return;
+                    }
+                    if (this.readyState != 4) return;
+                    mlyrics.lib.debugOutput("Got lyrics data");
+                    clearTimeout(abortTimeout);
+                    var respLyr = "";
+                    if (this.status == 200) {
+                        respLyr = this.responseText;
+                        var _artist = artist.toLowerCase();
+                        var startResultIndex = respLyr.indexOf("<!-- 以下検索結果 -->");
+                        var endResultIndex = respLyr.indexOf("<!-- 検索結果ここまで -->");
+                        var cutHtml = respLyr.substring(startResultIndex, endResultIndex);
+                        var respLyrDom = mlyrics.lib.htmlParser(cutHtml);
+                        var songId = "";
+                        var targetTable = "";
+                        var tables = respLyrDom.getElementsByTagName("table");
+                        for(var _i =0; _i< tables.length; _i++ ){
+                            if(tables[_i].getAttribute("bgcolor") === "#999999"){
+                                targetTable = tables[_i]
+                            }
+                        }
+                        if(targetTable != ""){
+                            var results = targetTable.getElementsByTagName("tr");
+                            for(var _j = 1; _j < results.length; _j++){
+                                var result = results[_j].getElementsByTagName("td");
+                                var resultArtist = result[1].getElementsByTagName("a")[0].text;
+                                var resultSong = result[0].getElementsByTagName("span")[0].getElementsByTagName("a")[0];
+                                var songUrl = resultSong.href;
+                                if(_artist === resultArtist.toLowerCase()){
+                                    var m = songUrl.match(/^\/song\/([1-9 A-Z a-z].*)\//);
+                                    if (m){
+                                        songId = m[1]
+                                    }
+                                }
+                            }
+                        }else{
+                            cbFn("");
+                        }
+
+                        if (songId != "") {
+                            sourceObj.getLyrics2(songId, cbFn);
+                        }
+                        else {
+                            cbFn("");
+                        }
+                    }
+                    else {
+                        cbFn("");
+                    }
+                };
+
+                req.onerror = function () {clearTimeout(abortTimeout);};
+                req.overrideMimeType("text/html;charset=Shift_JIS");
+                req.send(null);
+            },
+            getLyrics2: function (songId, cbFn){
+                mlyrics.lib.debugOutput("Fetch2: " + songUrl);
+                var songUrl = "http://www.uta-net.com/user/phplib/swf/showkasi.php?WIDTH=530&HEIGHT=677&ID=" + songId;
+                var req2 = new XMLHttpRequest();
+                if (!req2) {
+                    cbFn("");
+                    return;
+                }
+                var sourceObj = this;
+                req2.open("GET", songUrl, true);
+                var abortTimeout = setTimeout(function () {req2.abort(); cbFn("");}, mlyrics.fetch.abortTimeout);
+                req2.onreadystatechange = function () {
+                    if (typeof(mlyrics.pane) != "undefined" &&
+                        mlyrics.fetch.fetchMediaItem && mlyrics.pane.playlistPlaybackServiceListener.curMediaItem != mlyrics.fetch.fetchMediaItem)
+                    {
+                        mlyrics.lib.debugOutput("Fetch2 abort - track changed");
+                        clearTimeout(abortTimeout);
+                        this.abort();
+                        return;
+                    }
+                    if (this.readyState != 4) return;
+                    mlyrics.lib.debugOutput("Got2 lyrics data");
+                    clearTimeout(abortTimeout);
+                    var respLyr = "";
+                    if (this.status == 200) respLyr = this.responseText;
+                    respLyr = sourceObj.fixLyric(respLyr);
+                    cbFn(respLyr);
+                };
+                req2.onerror = function () {clearTimeout(abortTimeout);};
+                req2.send(null);
+            },
+            fixLyric: function(respLyr) {
+                var result = "";
+                var lines = respLyr.split("\n");
+                for(var _i = 2; _i < lines.length - 1; _i++){
+                    result = result + "\n" + lines[_i];
+                }
+                return result;
+            }
+        }
 	},
 	
 	fetchNext: function (artist, album, track, cbFn, counter, forceone, cbSProgress, localFetchQueueNumber) {

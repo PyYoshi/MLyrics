@@ -392,7 +392,7 @@ pref("extensions.mlyrics.fullScreen_lrcLyricsFontEnable", true);
 // ----------------------------------
 // Font style block end (full screen)
 
-pref("extensions.mlyrics.fetchSourcesList", "LWIKI|TERRA|METROLYRICS|LYRICSVIP|SING365|CHARTLYRICS|AZLYRICS|BATLYRICS|LYRDB|DARKLYRICS|LOLOLYRICS|GOODSONGS|JPOPASIA|SONGTEKSTEN|HINDILYRICS|ANIMELYRICS|SHIRONET|LYRICSHALL");
+pref("extensions.mlyrics.fetchSourcesList", "LWIKI|TERRA|METROLYRICS|LYRICSVIP|SING365|CHARTLYRICS|AZLYRICS|BATLYRICS|LYRDB|DARKLYRICS|LOLOLYRICS|GOODSONGS|JPOPASIA|SONGTEKSTEN|HINDILYRICS|ANIMELYRICS|SHIRONET|LYRICSHALL|UTANET");
 
 // Sources block begin
 // -------------------
@@ -414,6 +414,7 @@ pref("extensions.mlyrics.fetch_ANIMELYRICS",	false);
 pref("extensions.mlyrics.fetch_SHIRONET",	true);
 pref("extensions.mlyrics.fetch_LYRICSHALL",	true);
 pref("extensions.mlyrics.fetch_SING365",	true);
+pref("extensions.mlyrics.fetch_UTANET",  true);
 
 pref("extensions.mlyrics.laddress_TERRA", 	"letras.terra.com.br");
 pref("extensions.mlyrics.laddress_LYRDB", 	"lyrdb.com");
@@ -433,6 +434,7 @@ pref("extensions.mlyrics.laddress_ANIMELYRICS",	"animelyrics.com");
 pref("extensions.mlyrics.laddress_SHIRONET",	"shiron.net");
 pref("extensions.mlyrics.laddress_LYRICSHALL",	"lyricshall.com");
 pref("extensions.mlyrics.laddress_SING365",	"sing365.com");
+pref("extensions.mlyrics.laddress_UTANET",	"www.uta-net.com");
 
 pref("extensions.mlyrics.descr_TERRA", 		"Huge collection of lyrics of different songs");
 pref("extensions.mlyrics.descr_LYRDB", 		"Lyrics database");
@@ -452,6 +454,7 @@ pref("extensions.mlyrics.descr_ANIMELYRICS",	"Anime, Game and J-pop lyrics");
 pref("extensions.mlyrics.descr_SHIRONET",	"The lagest site of lyrics of Hebrew songs");
 pref("extensions.mlyrics.descr_LYRICSHALL",	"Share our passion for lyrics");
 pref("extensions.mlyrics.descr_SING365",	"Save your time");
+pref("extensions.mlyrics.descr_UTANET",	"Retrieving Lyrics Service");
 
 pref("extensions.mlyrics.popularity_TERRA", 		0);
 pref("extensions.mlyrics.popularity_LYRDB", 		0);
@@ -471,6 +474,7 @@ pref("extensions.mlyrics.popularity_ANIMELYRICS",	0);
 pref("extensions.mlyrics.popularity_SHIRONET",		0);
 pref("extensions.mlyrics.popularity_LYRICSHALL",	0);
 pref("extensions.mlyrics.popularity_SING365",		0);
+pref("extensions.mlyrics.popularity_UTANET",		0);
 // Sources block end
 // -----------------
 
