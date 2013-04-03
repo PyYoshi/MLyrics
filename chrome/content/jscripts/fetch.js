@@ -2733,8 +2733,8 @@ mlyrics.fetch = {
                 req.send(null);
             },
             getLyrics2: function (songId, cbFn){
-                mlyrics.lib.debugOutput("Fetch2: " + songUrl);
                 var songUrl = "http://www.uta-net.com/user/phplib/swf/showkasi.php?WIDTH=530&HEIGHT=677&ID=" + songId;
+                mlyrics.lib.debugOutput("Fetch2: " + songUrl);
                 var req2 = new XMLHttpRequest();
                 if (!req2) {
                     cbFn("");
