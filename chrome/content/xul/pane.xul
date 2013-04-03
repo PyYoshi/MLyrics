@@ -22,6 +22,7 @@
 	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/lrcFile.js"/>
 	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/scanLib.js"/>
 	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/JSON2.js"/>
+	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/ecl_new.js"/>
 	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/fetch.js"/>
 	<script type="application/x-javascript" src="chrome://mlyrics/content/jscripts/paneWindow.js"/>
 
