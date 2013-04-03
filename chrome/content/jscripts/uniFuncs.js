@@ -141,8 +141,25 @@ mlyrics.lib = {
 		if (parseInt(localMilliseconds, 10) 	< 10) localMilliseconds = "0" + localMilliseconds;
 
 		this.consoleService.logStringMessage("MLyrics [" + localMinutes + ":" + localSeconds + ":" + localMilliseconds + "] " + localOutStr);
-	}
-}
+	},
+
+    htmlParser: function (aHTMLString){
+
+        var docType = document.implementation.createDocumentType(
+            "html",
+            "-//W3C//DTD HTML 4.01 Transitional//EN",
+            "http://www.w3.org/TR/html4/loose.dtd"
+        );
+
+        var doc = document.implementation.createDocument(null,"html", docType);
+        var range = doc.createRange();
+        range.selectNodeContents(doc.documentElement);
+        var content = doc.adoptNode(range.createContextualFragment(aHTMLString));
+        doc.documentElement.appendChild(content);
+
+        return doc;
+    }
+};
 
 // Initialize when included
 mlyrics.lib.init();
